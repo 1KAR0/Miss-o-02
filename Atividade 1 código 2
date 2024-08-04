@@ -1,0 +1,68 @@
+import cv2 
+
+def dimensoes_imagem():
+    imagem = cv2.imread("IEEE.png")
+    print('Largura em pixels: ', end = '')
+    print(imagem.shape[0])
+    print('Altura em pixels: ', end='')
+    print(imagem.shape[1])
+    print('Quantidade de canais: ', end='')
+    print(imagem.shape[2])
+
+    cv2.imshow('Logo IEEE',imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def mostrar_imagem(janela, imagem):
+    cv2.imshow(janela, imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def conversao_hsv():
+    imagem = cv2.imread('IEEE.png')
+    imagem_hsv = cv2.cvtColor(imagem, cv2.COLOR_BGR2HSV)
+    lower = (90, 80, 40)
+    upper = (120, 255, 255)
+    mask = cv2.inRange(imagem_hsv, lower, upper)
+    return mask
+
+def converter_imagem():
+    imagem= cv2.imread('IEEE.png')
+    cv2.imshow('Inicial', imagem)
+    cv2.waitKey()
+    imagem_cinza = cv2.cvtColor(imagem, cv2.COLOR_BGR2GRAY)
+    print('Largura em pixels: ', end = '')
+    print(imagem.shape[0])
+    print('Altura em pixels: ', end='')
+    print(imagem.shape[1])
+    print('Quantidade de canais ', end='')
+    print(imagem.shape[2])
+    cv2.imshow('Grayscale', imagem_cinza)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
+
+
+def main():
+    while True:
+        print("Escolha uma opção:")
+        print("1. Mostrar dimensões da imagem")
+        print("2. Mostrar imagem em cinza e novas dimensões")
+        print("3. Mostrar conversão para HSV")
+        print("4. Sair")
+        escolha = input("Opção: ")
+
+        if escolha == '1':
+            imagem = dimensoes_imagem()
+            mostrar_imagem("IEEE", imagem)
+        elif escolha == '2': 
+            imagem = converter_imagem()
+            mostrar_imagem("IEEE Gray", imagem)
+        elif escolha == '3':
+            imagem = conversao_hsv()
+            mostrar_imagem('HSV', imagem)
+        elif escolha == '4':
+           break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+main()

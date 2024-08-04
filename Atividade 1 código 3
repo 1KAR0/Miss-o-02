@@ -1,0 +1,89 @@
+import cv2
+import numpy as np 
+
+def resize():
+    imagem = cv2.imread('IEEE_RAS.png') 
+    if imagem is None:
+        print("Erro ao carregar a imagem.")
+        return
+    largura = imagem.shape[1]
+    altura = imagem.shape[0]
+    proporcao = float(altura / largura)
+    larguraN = 400
+    alturaN = int(larguraN * proporcao)
+    imagem = cv2.resize(imagem, (larguraN, alturaN), interpolation=cv2.INTER_AREA)
+    cv2.imshow('Logo RAS', imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def mudar_brilho(imagem, valor):
+    img = imagem.astype(np.float32)
+    img = img + valor
+    img = np.clip(img, 0, 255).astype(np.uint8)
+    return img
+
+imagem = cv2.imread('IEEE_RAS.png')
+valor_aumento = 50
+imagem_brilho_aumentado = mudar_brilho(imagem, valor_aumento)
+valor_diminuicao = -100
+imagem_brilho_diminuido = mudar_brilho(imagem, valor_diminuicao)
+cv2.imshow('Imagem Original', imagem)
+cv2.imshow('Brilho Aumentado', imagem_brilho_aumentado)
+cv2.imshow('Brilho Diminuido', imagem_brilho_diminuido)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+def mostrar_imagem(janela, imagem):
+    cv2.imshow(janela, imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def bluring ():
+    imagem = cv2.imread('IEEE_RAS.png')
+    cv2.imshow('Logo', imagem)
+    cv2.imshow('Imagem com Blur', cv2.blur(imagem, (20,20)))
+    cv2.waitKey()
+    cv2.destroyAllWindows()
+
+def binaria():
+    imagem = cv2.imread('IEEE_RAS.png', cv2.IMREAD_GRAYSCALE)
+    if imagem is None:
+        print("Erro ao carregar a imagem.")
+    else:
+        _, thresh_binaria = cv2.threshold(imagem, 127, 255, cv2.THRESH_BINARY)
+        _, thresh_otsu = cv2.threshold(imagem, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+        cv2.imshow('Imagem Original', imagem)
+        cv2.imshow('Thresholding Simples', thresh_binaria)
+        cv2.imshow('Otsu Thresholding', thresh_otsu)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+def main():
+    while True:
+        print("Escolha uma opção:")
+        print("1. Mostrar imagem com novas medidas")
+        print("2. Mostrar imagem clara ou escura")
+        print("3. Mostrar imagem com blur")
+        print("4. Mostrar imagem binaria")
+        print("5. Sair")
+        escolha = input("Opção: ")
+
+        if escolha == '1':
+            imagem = resize()
+            mostrar_imagem("IEEE_RAS", imagem)
+        elif escolha == '2': 
+            imagem = mudar_brilho()
+            mostrar_imagem("IEEE_RAS", imagem)
+        elif escolha == '3': 
+            imagem = bluring()
+            mostrar_imagem("IEEE_RAS", imagem)
+        elif escolha == '4': 
+            imagem = binaria()
+            mostrar_imagem("IEEE_RAS", imagem)
+        elif escolha == '5':
+           break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+main()

@@ -1,0 +1,39 @@
+import cv2
+
+def carregar_imagem():
+    nome = input("Qual o nome da imagem que quer carregar?:")
+    imagem = cv2.imread(nome)
+    return imagem
+
+def mostrar_imagem(janela, imagem):
+    cv2.imshow(janela, imagem)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+def carregar_webcam():
+    cap = cv2.VideoCapture(0)
+    frame = cap.read()
+    cap.release()
+    return frame
+
+def main():
+    while True:
+        print("Escolha uma opção:")
+        print("1. Carregar imagem do computador")
+        print("2. Carregar imagem da webcam")
+        print("3. Sair")
+        escolha = input("Opção: ")
+
+        if escolha == '1':
+            imagem = carregar_imagem()
+            mostrar_imagem("Logo ras", imagem)
+        elif escolha == '2': 
+            imagem = carregar_webcam()
+            mostrar_imagem("Webcam", imagem)
+        elif escolha == '3':
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+
+main()
